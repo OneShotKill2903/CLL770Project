@@ -1,0 +1,278 @@
+<FluentXMLReport>
+<version>
+Fluent
+Version: 3d, pbns, vof, lam, transient (3d, pressure-based, VOF, laminar, transient)
+Release: 24.1.0
+Title: 
+</version>
+
+<Models>
+
+Models
+------
+
+   Model                        Settings                       
+   ---------------------------------------------------------
+   Space                        3D                             
+   Time                         Unsteady, 1st-Order Implicit   
+   Viscous                      Laminar                        
+   Heat Transfer                Disabled                       
+   Solidification and Melting   Disabled                       
+   Species                      Disabled                       
+   Coupled Dispersed Phase      Disabled                       
+   NOx Pollutants               Disabled                       
+   SOx Pollutants               Disabled                       
+   Soot                         Disabled                       
+   Mercury Pollutants           Disabled                       
+   Structure                    Disabled                       
+   Acoustics                    Disabled                       
+   Eulerian Wall Film           Disabled                       
+   Potential/Electrochemistry   Disabled                       
+   Multiphase                   Volume of Fluid                
+
+</Models>
+
+<MaterialProperties>
+Material Properties
+-------------------
+
+   Material: toluene-liquid (fluid)
+
+      Property               Units      Method     Value(s)   
+      -----------------------------------------------------
+      Density                kg/m^3     constant   870        
+      Cp (Specific Heat)     J/(kg K)   constant   1675       
+      Thermal Conductivity   W/(m K)    constant   0.151      
+      Viscosity              kg/(m s)   constant   0.00059    
+      Molecular Weight       kg/kmol    constant   92.0702    
+
+   Material: water-liquid (fluid)
+
+      Property               Units      Method     Value(s)   
+      -----------------------------------------------------
+      Density                kg/m^3     constant   998.2      
+      Cp (Specific Heat)     J/(kg K)   constant   4182       
+      Thermal Conductivity   W/(m K)    constant   0.6        
+      Viscosity              kg/(m s)   constant   0.001      
+      Molecular Weight       kg/kmol    constant   18.0152    
+
+   Material: butanol (fluid)
+
+      Property               Units      Method     Value(s)   
+      -----------------------------------------------------
+      Density                kg/m^3     constant   1.225      
+      Cp (Specific Heat)     J/(kg K)   constant   1006.43    
+      Thermal Conductivity   W/(m K)    constant   0.0242     
+      Viscosity              kg/(m s)   constant   0.00294    
+      Molecular Weight       kg/kmol    constant   28.966     
+
+   Material: aluminum (solid)
+
+      Property               Units      Method     Value(s)   
+      -----------------------------------------------------
+      Density                kg/m^3     constant   2719       
+      Cp (Specific Heat)     J/(kg K)   constant   871        
+      Thermal Conductivity   W/(m K)    constant   202.4      
+
+</MaterialProperties>
+
+<CellZoneConditions>
+Cell Zone Conditions
+--------------------
+
+   Zones
+
+      name              id   type    
+      ----------------------------
+      solid (mixture)   3    fluid   
+      solid (phase-1)   3    fluid   
+      solid (phase-2)   3    fluid   
+
+   Setup Conditions
+
+      solid (mixture)
+
+         Condition       Value   
+         ---------------------
+         Frame Motion?   no      
+         Mesh Motion?    no      
+
+      solid (phase-1)
+
+         Condition   Value   
+         -----------------
+
+      solid (phase-2)
+
+         Condition   Value   
+         -----------------
+
+</CellZoneConditions>
+
+<BoundaryConditions>
+Boundary Conditions
+-------------------
+
+   Zones
+
+      name                   id   type              
+      -------------------------------------------
+      cp_in (mixture)        8    velocity-inlet    
+      cp_in (phase-1)        8    velocity-inlet    
+      cp_in (phase-2)        8    velocity-inlet    
+      dp_in (mixture)        7    velocity-inlet    
+      dp_in (phase-1)        7    velocity-inlet    
+      dp_in (phase-2)        7    velocity-inlet    
+      wall-solid (mixture)   1    wall              
+      wall-solid (phase-1)   1    wall              
+      wall-solid (phase-2)   1    wall              
+      outlet (mixture)       6    pressure-outlet   
+      outlet (phase-1)       6    pressure-outlet   
+      outlet (phase-2)       6    pressure-outlet   
+
+   Setup Conditions
+
+      cp_in (mixture)
+
+         Condition                  Value        
+         -------------------------------------
+         Velocity Magnitude [m/s]   0.00868056   
+
+      cp_in (phase-1)
+
+         Condition   Value   
+         -----------------
+
+      cp_in (phase-2)
+
+         Condition   Value   
+         -----------------
+
+      dp_in (mixture)
+
+         Condition                  Value        
+         -------------------------------------
+         Velocity Magnitude [m/s]   0.00868056   
+
+      dp_in (phase-1)
+
+         Condition   Value   
+         -----------------
+
+      dp_in (phase-2)
+
+         Condition         Value   
+         -----------------------
+         Volume Fraction   1       
+
+      wall-solid (mixture)
+
+         Condition                  Value                            
+         ---------------------------------------------------------
+         Wall Motion                Stationary Wall                  
+         Shear Boundary Condition   No Slip                          
+         Contact Angles [deg]       (((constant . 0) (profile  )))   
+
+      wall-solid (phase-1)
+
+         Condition   Value   
+         -----------------
+
+      wall-solid (phase-2)
+
+         Condition   Value   
+         -----------------
+
+      outlet (mixture)
+
+         Condition                         Value                   
+         -------------------------------------------------------
+         Pressure Specification Method     From Neighboring Cell   
+         Backflow Pressure Specification   Static Pressure         
+
+      outlet (phase-1)
+
+         Condition   Value   
+         -----------------
+
+      outlet (phase-2)
+
+         Condition   Value   
+         -----------------
+
+</BoundaryConditions>
+
+<SolverSettings>
+Solver Settings
+---------------
+
+   Equations
+
+      Equation          Solved   
+      ------------------------
+      Flow              yes      
+      Volume Fraction   yes      
+
+   Numerics
+
+      Numeric                         Enabled   
+      ---------------------------------------
+      Absolute Velocity Formulation   yes       
+
+   Unsteady Calculation Parameters
+
+                                         
+      --------------------------------
+      Number of Time Steps       1999    
+      Time Step Size [s]         1e-06   
+      Max Iterations/Time Step   50      
+
+   Under-Relaxation Factors
+
+      Variable          Relaxation Factor   
+      -----------------------------------
+      Pressure          0.3                 
+      Density           1                   
+      Body Forces       1                   
+      Momentum          0.7                 
+      Volume Fraction   0.5                 
+
+   Linear Solver
+
+      Variable          Solver Type   Termination Criterion   Residual Reduction Tolerance   
+      ------------------------------------------------------------------------------------
+      Pressure          V-Cycle       0.1                                                    
+      X-Momentum        Flexible      0.1                     0.7                            
+      Y-Momentum        Flexible      0.1                     0.7                            
+      Z-Momentum        Flexible      0.1                     0.7                            
+      Volume Fraction   Flexible      0.1                     0.7                            
+
+   Pressure-Velocity Coupling
+
+      Parameter                     Value   
+      -----------------------------------
+      Type                          PISO    
+      Skewness-Neighbour Coupling   yes     
+      Skewness Correction           1       
+      Neighbour Correction          1       
+
+   Discretization Scheme
+
+      Variable          Scheme                
+      -------------------------------------
+      Pressure          PRESTO!               
+      Momentum          Second Order Upwind   
+      Volume Fraction   Compressive           
+
+   Solution Limits
+
+      Quantity                         Limit   
+      --------------------------------------
+      Minimum Absolute Pressure [Pa]   1       
+      Maximum Absolute Pressure [Pa]   5e+10   
+      Minimum Static Temperature [K]   1       
+      Maximum Static Temperature [K]   5000    
+
+</SolverSettings>
+
+</FluentXMLReport>
